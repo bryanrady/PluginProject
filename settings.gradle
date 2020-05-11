@@ -1,3 +1,5 @@
 rootProject.name='PluginProject'
 include ':app'
 include ':skin_core'
+include ':plugin_access_standard'
+include ':plugin_instrumentation'

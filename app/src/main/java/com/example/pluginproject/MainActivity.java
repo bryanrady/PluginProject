@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.pluginproject.instrumentation.InstrumentationActivity;
 import com.example.pluginproject.skin.SkinActivity;
 
 import butterknife.BindView;
@@ -45,7 +46,8 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.btn_instrumentation:
-                //
+                intent = new Intent(this, InstrumentationActivity.class);
+                startActivity(intent);
                 break;
             case R.id.btn_hook:
                 break;

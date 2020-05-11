@@ -32,7 +32,7 @@
     <com.example.pluginproject.skin.widget.CircleView
         android:layout_width="32dp"
         android:layout_height="32dp"
-        app:corcleColor="@color/colorAccent"/>
+        app:circleColor="@color/colorAccent"/>
 
     <!--测试TextView-->
     <Button
