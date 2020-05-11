@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="window_bg" type="drawable">@color/white</item>
+
+</resources>
