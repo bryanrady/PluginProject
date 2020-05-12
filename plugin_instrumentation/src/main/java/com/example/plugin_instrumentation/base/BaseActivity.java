@@ -99,15 +99,6 @@ public class BaseActivity extends Activity implements IActivityStandard {
     }
 
     @Override
-    public Intent getIntent() {
-        if (mThat != null){
-            return mThat.getIntent();
-        }else{
-            return super.getIntent();
-        }
-    }
-
-    @Override
     public ClassLoader getClassLoader() {
         if (mThat != null){
             return mThat.getClassLoader();
@@ -162,12 +153,21 @@ public class BaseActivity extends Activity implements IActivityStandard {
     }
 
     @Override
+    public Intent getIntent() {
+        if (mThat != null){
+            return mThat.getIntent();
+        }else{
+            return super.getIntent();
+        }
+    }
+
+    @Override
     public void startActivity(Intent intent) {
         if (mThat != null){
-            //ProxyActivity ---> activityName
+            //这里就会调用到ProxyActivity的startActivity()，activityName 要跳转的类名
             Intent m = new Intent();
             m.putExtra("activityName", intent.getComponent().getClassName());
-            mThat.startActivity(m);
+            mThat.startActivity(intent);
         }else{
             super.startActivity(intent);
         }

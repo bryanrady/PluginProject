@@ -1,8 +1,6 @@
 package com.example.pluginproject;
 
-import android.Manifest;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;

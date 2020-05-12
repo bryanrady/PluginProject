@@ -1,6 +1,7 @@
 package com.example.pluginproject.instrumentation;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +19,11 @@ public class ProxyActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //这个类名就是插件apk的启动页
+        //这个类名就是要启动的插件apk的类名
         String activityName = getIntent().getStringExtra("activityName");
-        Log.d("wangqingbin","activityName == "+ activityName);
-        //Class.forName(mActivityName); 这里不能通过反射去获得淘票票Activity的全类名 因为没有被安装到手机上
+        Bundle bundle = getIntent().getBundleExtra("bundle");
+
+        //Class.forName(mActivityName); 这里不能通过反射去获得插件Activity的全类名，因为没有被安装到手机上
         try {
             Class activityClass = getClassLoader().loadClass(activityName);
             Constructor activityClassConstructor = activityClass.getConstructor(new Class[]{});
@@ -30,10 +32,6 @@ public class ProxyActivity extends Activity {
             //这里直接进行强转
             mIActivityStandard = (IActivityStandard) newInstance;
             mIActivityStandard.attach(this);
-
-            Bundle bundle = new Bundle();
-            bundle.putString("name","张三");
-            bundle.putInt("age",25);
             mIActivityStandard.onCreate(bundle);
 
         } catch (Exception e) {
@@ -79,5 +77,17 @@ public class ProxyActivity extends Activity {
     @Override
     public Resources getResources() {
         return InstrumentationManager.getInstance().getResources();
+    }
+
+    /**
+     * 插件中Activity之间的跳转，启动ProxyActivity，最后又会根据类名创建出activity
+     * @param intent
+     */
+    @Override
+    public void startActivity(Intent intent) {
+        String activityName = intent.getStringExtra("activityName");
+        Intent m = new Intent(this, ProxyActivity.class);
+        m.putExtra("activityName", activityName);
+        super.startActivity(m);
     }
 }

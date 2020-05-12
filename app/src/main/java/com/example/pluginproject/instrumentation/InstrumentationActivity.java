@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
@@ -47,10 +48,20 @@ public class InstrumentationActivity extends BaseActivity {
         if(isLoadSuccess){
             Intent intent = new Intent(this, ProxyActivity.class);
             intent.putExtra("activityName", InstrumentationManager.getInstance().getPackageInfo().activities[0].name);
+            Bundle bundle = new Bundle();
+            bundle.putString("name","张三");
+            bundle.putInt("age",25);
+            intent.putExtra("bundle", bundle);
             startActivity(intent);
         }else{
             Toast.makeText(this,"加载插件出了问题",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void startService(View view){
+        Intent intent = new Intent(this, ProxyService.class);
+        intent.putExtra("serviceName", InstrumentationManager.getInstance().getPackageInfo().services[0].name);
+        startActivity(intent);
     }
 
 }
