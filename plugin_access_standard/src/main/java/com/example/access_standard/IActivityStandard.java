@@ -10,11 +10,12 @@ public interface IActivityStandard {
 
     void attach(Activity proxyActivity);
 
-    void onCreate(Bundle savedInstanceState);
-    void onStart();
-    void onResume();
-    void onPause();
-    void onStop();
-    void onDestroy();
+    //生命周期的管理
+    void onProxyCreate(Bundle savedInstanceState);
+    void onProxyStart();
+    void onProxyResume();
+    void onProxyPause();
+    void onProxyStop();
+    void onProxyDestroy();
 
 }

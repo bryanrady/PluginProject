@@ -28,34 +28,35 @@ public class BaseActivity extends Activity implements IActivityStandard {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onProxyCreate(Bundle savedInstanceState) {
 
     }
 
     @Override
-    public void onStart() {
+    public void onProxyStart() {
 
     }
 
     @Override
-    public void onResume() {
+    public void onProxyResume() {
 
     }
 
     @Override
-    public void onPause() {
+    public void onProxyPause() {
 
     }
 
     @Override
-    public void onStop() {
+    public void onProxyStop() {
 
     }
 
     @Override
-    public void onDestroy() {
+    public void onProxyDestroy() {
 
     }
+
 
     /**
      * 凡是只要在插件apk中用到activity的方法有涉及到上下文的方法都需要重写
@@ -185,27 +186,11 @@ public class BaseActivity extends Activity implements IActivityStandard {
     @Override
     public ComponentName startService(Intent service) {
         if (mThat != null){
-            return mThat.startService(service);
+            Intent m = new Intent();
+            m.putExtra("serviceName", service.getComponent().getClassName());
+            return mThat.startService(m);
         }else{
             return super.startService(service);
-        }
-    }
-
-    @Override
-    public boolean bindService(Intent service, ServiceConnection conn, int flags) {
-        if (mThat != null){
-            return mThat.bindService(service, conn, flags);
-        }else{
-            return super.bindService(service, conn, flags);
-        }
-    }
-
-    @Override
-    public void sendBroadcast(Intent intent) {
-        if (mThat != null){
-            mThat.sendBroadcast(intent);
-        }else{
-            super.sendBroadcast(intent);
         }
     }
 
@@ -224,6 +209,15 @@ public class BaseActivity extends Activity implements IActivityStandard {
             mThat.unregisterReceiver(receiver);
         }else{
             super.unregisterReceiver(receiver);
+        }
+    }
+
+    @Override
+    public void sendBroadcast(Intent intent) {
+        if (mThat != null){
+            mThat.sendBroadcast(intent);
+        }else{
+            super.sendBroadcast(intent);
         }
     }
 

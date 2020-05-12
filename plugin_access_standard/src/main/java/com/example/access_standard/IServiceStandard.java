@@ -9,10 +9,10 @@ public interface IServiceStandard {
 
     void attach(Service proxyService);
 
-    void onCreate();
-    int onStartCommand(Intent intent, int flags, int startId);
-    IBinder onBind(Intent intent);
-    boolean onUnbind(Intent intent);
-    void onDestroy();
+    void onProxyCreate();
+    int onProxyStartCommand(Intent intent, int flags, int startId);
+    IBinder onProxyBind(Intent intent);
+    boolean onProxyUnbind(Intent intent);
+    void onProxyDestroy();
 
 }

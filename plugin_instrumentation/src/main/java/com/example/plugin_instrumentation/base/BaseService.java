@@ -10,11 +10,36 @@ import androidx.annotation.Nullable;
 
 public class BaseService extends Service implements IServiceStandard {
 
-    private Service mThat;
+    protected Service mThat;
 
     @Override
     public void attach(Service proxyService) {
         this.mThat = proxyService;
+    }
+
+    @Override
+    public void onProxyCreate() {
+
+    }
+
+    @Override
+    public int onProxyStartCommand(Intent intent, int flags, int startId) {
+        return Service.START_STICKY;
+    }
+
+    @Override
+    public IBinder onProxyBind(Intent intent) {
+        return null;
+    }
+
+    @Override
+    public boolean onProxyUnbind(Intent intent) {
+        return false;
+    }
+
+    @Override
+    public void onProxyDestroy() {
+
     }
 
     @Nullable

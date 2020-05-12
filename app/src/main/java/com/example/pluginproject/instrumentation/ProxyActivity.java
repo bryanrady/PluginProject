@@ -1,6 +1,7 @@
 package com.example.pluginproject.instrumentation;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -23,16 +24,16 @@ public class ProxyActivity extends Activity {
         String activityName = getIntent().getStringExtra("activityName");
         Bundle bundle = getIntent().getBundleExtra("bundle");
 
-        //Class.forName(mActivityName); 这里不能通过反射去获得插件Activity的全类名，因为没有被安装到手机上
         try {
-            Class activityClass = getClassLoader().loadClass(activityName);
-            Constructor activityClassConstructor = activityClass.getConstructor(new Class[]{});
-            Object newInstance = activityClassConstructor.newInstance(new Object[]{});
+            //Class.forName(mActivityName); 这里不能通过反射去获得插件Activity的全类名，因为没有被安装到手机上
+            Class loadClass = getClassLoader().loadClass(activityName);
+            Constructor constructor = loadClass.getConstructor(new Class[]{});
+            Object instance = constructor.newInstance(new Object[]{});
 
             //这里直接进行强转
-            mIActivityStandard = (IActivityStandard) newInstance;
+            mIActivityStandard = (IActivityStandard) instance;
             mIActivityStandard.attach(this);
-            mIActivityStandard.onCreate(bundle);
+            mIActivityStandard.onProxyCreate(bundle);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,31 +43,31 @@ public class ProxyActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        mIActivityStandard.onStart();
+        mIActivityStandard.onProxyStart();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mIActivityStandard.onResume();
+        mIActivityStandard.onProxyResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        mIActivityStandard.onPause();
+        mIActivityStandard.onProxyPause();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mIActivityStandard.onStop();
+        mIActivityStandard.onProxyStop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mIActivityStandard.onDestroy();
+        mIActivityStandard.onProxyDestroy();
     }
 
     @Override
@@ -89,5 +90,13 @@ public class ProxyActivity extends Activity {
         Intent m = new Intent(this, ProxyActivity.class);
         m.putExtra("activityName", activityName);
         super.startActivity(m);
+    }
+
+    @Override
+    public ComponentName startService(Intent service) {
+        String serviceName = service.getStringExtra("serviceName");
+        Intent m = new Intent(this, ProxyService.class);
+        m.putExtra("serviceName", serviceName);
+        return super.startService(m);
     }
 }

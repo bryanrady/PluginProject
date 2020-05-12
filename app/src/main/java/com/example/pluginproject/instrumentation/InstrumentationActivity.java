@@ -58,10 +58,7 @@ public class InstrumentationActivity extends BaseActivity {
         }
     }
 
-    public void startService(View view){
-        Intent intent = new Intent(this, ProxyService.class);
-        intent.putExtra("serviceName", InstrumentationManager.getInstance().getPackageInfo().services[0].name);
-        startActivity(intent);
+    public void sendBroadCast(View view){
     }
 
 }
