@@ -167,7 +167,7 @@ public class BaseActivity extends Activity implements IActivityStandard {
             //这里就会调用到ProxyActivity的startActivity()，activityName 要跳转的类名
             Intent m = new Intent();
             m.putExtra("activityName", intent.getComponent().getClassName());
-            mThat.startActivity(intent);
+            mThat.startActivity(m);
         }else{
             super.startActivity(intent);
         }
