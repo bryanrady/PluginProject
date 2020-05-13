@@ -14,11 +14,20 @@ import java.lang.reflect.Proxy;
 
 import androidx.annotation.NonNull;
 
-/**
- * 9.0以上这些是玩不转的
- */
+
 public class HookAmsUtil {
 
+    /**
+     * 首先Hook系统的startActivity，将未注册的组件的意图
+     *  如果我们要跳转到未注册的Activity中，首先要Hook系统的startActivity，在Activity没有加载之前将未注册的Activity意图放进
+     *  一个已经注册了的ProxyActivity中，就是将跳转的真实信息隐藏到ProxyActivity的Intent中，然后将系统原来的intent替换为
+     *  ProxyActivity的intent,这样就能绕开AMS检查。
+     *
+     *  然后在要加载Activity的时候将原来的隐藏在ProxyActivity的Intent的真是意图进行还原，然后再执行系统的加载Activity的方法，
+     *  这样就能达到跳转未注册的Activity界面。
+     *
+     * @param context
+     */
     public static void hookStartActivity(Context context){
         try {
             //1、找到ActivityManagerNative类中的gDefault对象
