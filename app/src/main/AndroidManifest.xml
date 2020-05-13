@@ -29,6 +29,8 @@
         <activity android:name=".instrumentation.ProxyActivity"/>
         <service android:name=".instrumentation.ProxyService"/>
 
+        <activity android:name=".hook.ams.AmsProxyActivity"/>
+
     </application>
 
 </manifest>

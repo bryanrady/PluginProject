@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <Button
+        android:id="@+id/btn_hook_ams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:text="Hook 绕开AMS检查实现集中式登录" />
+
+    <Button
+        android:id="@+id/btn_hook_clipboard"
+        android:layout_below="@+id/btn_hook_ams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:text="Hook 拦截剪贴板系统服务" />
+
+    <Button
+        android:id="@+id/btn_hook_dex_elements"
+        android:layout_below="@+id/btn_hook_clipboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:text="融合dexElements数组实现集中式登录" />
+
+    <Button
+        android:id="@+id/btn_hook_loadedApk"
+        android:layout_below="@+id/btn_hook_dex_elements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:text="通过LoadedApk加载不同的类加载器实现集中式登录" />
+
+</RelativeLayout>
