@@ -43,7 +43,7 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:design:26.0.2'
 
-    
-    implementation project(':plugin_access_standard')
+
+    implementation project(':instrumentation_access_standard')
 
 }

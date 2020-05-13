@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import android.os.Environment;
 
 import com.example.pluginproject.hook.ams.HookAmsUtil;
-import com.example.pluginproject.hook.loadedapk.HookLoadedApkUtil;
+import com.example.pluginproject.hook.merge.HookMergeUtil;
 
 import java.io.File;
 
@@ -23,8 +23,8 @@ public class PluginApplication extends Application {
         HookAmsUtil.hookHandleMessage(this);
 
         //2.Hook 加载完整的插件apk实现集中式登录
-        HookLoadedApkUtil.hookStartActivity(this);
-        HookLoadedApkUtil.hookHandleMessage(this);
+        HookMergeUtil.hookStartActivity(this);
+        HookMergeUtil.hookHandleMessage(this);
         String fileName = "plugin_loadedapk.apk";
         String filePath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin",
                 fileName).getAbsolutePath();
