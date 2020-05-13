@@ -42,6 +42,10 @@ public class HookAmsActivity extends BaseActivity {
         startActivity(new Intent(this, AmsThirdActivity.class));
     }
 
+    public void jump_no_login(View view) {
+        startActivity(new Intent(this, AmsNoLoginActivity.class));
+    }
+
     public void logout(View view) {
         SharedPreferences sharedPreferences = this.getSharedPreferences("bryanrady", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

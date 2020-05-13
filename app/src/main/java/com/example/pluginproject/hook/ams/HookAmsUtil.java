@@ -78,11 +78,9 @@ public class HookAmsUtil {
                     //说明找到了原来的Intent和要跳转的组件
                     if (originalIntent != null && originalIntent.getComponent() != null){
                         //我们创建一个新的Intent，将新的Intent替换老的Intent
-                        if (onlyActivity(originalIntent)){
-                            Intent newIntent = new Intent(mContext, AmsProxyActivity.class);
-                            newIntent.putExtra("originalIntent", originalIntent);
-                            args[index] = newIntent;
-                        }
+                        Intent newIntent = new Intent(mContext, AmsProxyActivity.class);
+                        newIntent.putExtra("originalIntent", originalIntent);
+                        args[index] = newIntent;
                     }
 
                 }
@@ -158,9 +156,9 @@ public class HookAmsUtil {
             if (newIntent != null) {
                 Intent originalIntent = newIntent.getParcelableExtra("originalIntent");
                 if (originalIntent != null) {
-                    if (onlyActivity(originalIntent)){
-                        SharedPreferences sharedPreferences = context.getSharedPreferences("bryanrady", Context.MODE_PRIVATE);
-                        boolean isLogin = sharedPreferences.getBoolean("login", false);
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("bryanrady", Context.MODE_PRIVATE);
+                    boolean isLogin = sharedPreferences.getBoolean("login", false);
+                    if (isNeedLoginActivity(originalIntent)){
                         if (isLogin) {
                             //如果已经登录过了
                             newIntent.setComponent(originalIntent.getComponent());
@@ -171,6 +169,9 @@ public class HookAmsUtil {
                             newIntent.putExtra("classname", originalIntent.getComponent().getClassName());
                             newIntent.setComponent(componentName);
                         }
+                    }else{
+                        //不需要登录的Activity直接使用原来的意图
+                        newIntent.setComponent(originalIntent.getComponent());
                     }
                 }
             }
@@ -180,7 +181,12 @@ public class HookAmsUtil {
 
     }
 
-    private static boolean onlyActivity(Intent intent){
+    /**
+     * 是否需要登录
+     * @param intent
+     * @return
+     */
+    private static boolean isNeedLoginActivity(Intent intent){
         final String[] classNames = {
                 AmsFirstActivity.class.getName(),
                 AmsSecondActivity.class.getName(),
