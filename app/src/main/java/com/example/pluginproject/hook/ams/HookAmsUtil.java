@@ -1,11 +1,11 @@
 package com.example.pluginproject.hook.ams;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
-
-import com.example.pluginproject.R;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
@@ -78,9 +78,11 @@ public class HookAmsUtil {
                     //说明找到了原来的Intent和要跳转的组件
                     if (originalIntent != null && originalIntent.getComponent() != null){
                         //我们创建一个新的Intent，将新的Intent替换老的Intent
-                        Intent newIntent = new Intent(mContext, AmsProxyActivity.class);
-                        newIntent.putExtra("originalIntent", originalIntent);
-                        args[index] = newIntent;
+                        if (onlyActivity(originalIntent)){
+                            Intent newIntent = new Intent(mContext, AmsProxyActivity.class);
+                            newIntent.putExtra("originalIntent", originalIntent);
+                            args[index] = newIntent;
+                        }
                     }
 
                 }
@@ -99,16 +101,19 @@ public class HookAmsUtil {
             Object sCurrentActivityThread = sCurrentActivityThreadField.get(null);
             
             //2、找到ActivityThread类中的mH对象
-            Field mHField = activityThreadClass.getField("mH");
+            Field mHField = activityThreadClass.getDeclaredField("mH");
             mHField.setAccessible(true);
-            Object mH = mHField.get(sCurrentActivityThread);
+            Handler mH = (Handler) mHField.get(sCurrentActivityThread);
 
             //3、找到Handler类中的mCallback接口
             Field mCallbackField = Handler.class.getDeclaredField("mCallback");
             mCallbackField.setAccessible(true);
 
-            //4、通过接口实现得到自己的Callback接口
+            //4、通过接口实现得到自己的Callback
+            InterfaceMHCallback interfaceMHCallback = new InterfaceMHCallback(context, mH);
 
+            //5、替换系统中Handler的Callback接口
+            mCallbackField.set(mH, interfaceMHCallback);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,14 +134,65 @@ public class HookAmsUtil {
         public boolean handleMessage(@NonNull Message msg) {
             //100代表LAUNCH_ACTIVITY
             if (msg.what == 100){
-
-                Object activityClientRecord = msg.obj;
+                //在这里面处理自己的逻辑
+                handleLaunchActivity(mContext, msg);
             }
-            //继续执行系统的流程
+
+            //处理完成后，继续执行系统的流程
             mRealHandler.handleMessage(msg);
             //这里要返回true，表示我们通过自己的接口来处理handle的消息
             return true;
         }
     }
+
+    private static void handleLaunchActivity(Context context, Message msg) {
+        try {
+            Object activityClientRecord = msg.obj;
+            Field intentField = activityClientRecord.getClass().getDeclaredField("intent");
+            intentField.setAccessible(true);
+            Object intent = intentField.get(activityClientRecord);
+
+            //这个Intent是前面包装了的newIntent
+            Intent newIntent = (Intent) intent;
+
+            if (newIntent != null) {
+                Intent originalIntent = newIntent.getParcelableExtra("originalIntent");
+                if (originalIntent != null) {
+                    if (onlyActivity(originalIntent)){
+                        SharedPreferences sharedPreferences = context.getSharedPreferences("bryanrady", Context.MODE_PRIVATE);
+                        boolean isLogin = sharedPreferences.getBoolean("login", false);
+                        if (isLogin) {
+                            //如果已经登录过了
+                            newIntent.setComponent(originalIntent.getComponent());
+                        } else {
+                            //如果之前没有登录，就改变意图前往登录
+                            ComponentName componentName = new ComponentName(context, AmsLoginActivity.class);
+                            //顺便把之前要跳转的组件传给AmsLoginActivity，登录成功后跳转原来的的组件
+                            newIntent.putExtra("classname", originalIntent.getComponent().getClassName());
+                            newIntent.setComponent(componentName);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static boolean onlyActivity(Intent intent){
+        final String[] classNames = {
+                AmsFirstActivity.class.getName(),
+                AmsSecondActivity.class.getName(),
+                AmsThirdActivity.class.getName(),
+        };
+        for (String className : classNames){
+            if (className.equals(intent.getComponent().getClassName())){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

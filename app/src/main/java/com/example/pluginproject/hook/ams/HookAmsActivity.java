@@ -23,8 +23,7 @@ public class HookAmsActivity extends BaseActivity {
 
     @Override
     public void doBusiness(Context context) {
-        HookAmsUtil.hookStartActivity(this);
-        HookAmsUtil.hookHandleMessage(this);
+
     }
 
     /**
@@ -44,7 +43,7 @@ public class HookAmsActivity extends BaseActivity {
     }
 
     public void logout(View view) {
-        SharedPreferences sharedPreferences = this.getSharedPreferences("bryanrady", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = this.getSharedPreferences("bryanrady", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("login",false);
         editor.apply();
