@@ -12,6 +12,8 @@ import android.content.res.Resources;
 import android.os.Environment;
 import android.util.Log;
 
+import com.example.pluginproject.PluginApplication;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -58,7 +60,7 @@ public class LoadPluginThread extends Thread {
         InputStream is = null;
         FileOutputStream fos = null;
         try {
-            is = new FileInputStream(new File(Environment.getExternalStorageDirectory() + "/plugin",
+            is = new FileInputStream(new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin",
                     fileName).getAbsolutePath());
             fos = new FileOutputStream(filePath);
             int len;
@@ -107,13 +109,11 @@ public class LoadPluginThread extends Thread {
             Method addAssetPath = AssetManager.class.getMethod("addAssetPath", String.class);
             addAssetPath.invoke(assetManager,dexPath);
             mResources = new Resources(assetManager,context.getResources().getDisplayMetrics(),context.getResources().getConfiguration());
-            mLoadSuccess = true;
         }catch (Exception e) {
             e.printStackTrace();
-            mLoadSuccess = false;
         }
 
-    //    parseReceiver(context,new File(dexPath));
+        registerPluginReceiver(context,new File(dexPath));
     }
 
     /**
@@ -122,7 +122,7 @@ public class LoadPluginThread extends Thread {
      * @param packageFile
      * @return
      */
-    private void parseReceiver(Context context, File packageFile) {
+    private void registerPluginReceiver(Context context, File packageFile) {
         try {
             //解析apk包的入口在    PMS.main --> PMS构造函数 -> mAppInstallDir（/data/data目录下） --》scanDirLI();
             // --> scanPackageLI() --> PackageParser.parsePackage() -->PackageParser.Package -->ArrayList<Activity> receivers

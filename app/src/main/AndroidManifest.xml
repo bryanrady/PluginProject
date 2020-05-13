@@ -30,8 +30,12 @@
         <service android:name=".instrumentation.ProxyService"/>
 
         <activity android:name=".hook.HookActivity"/>
+
         <activity android:name=".hook.ams.HookAmsActivity"/>
         <activity android:name=".hook.ams.AmsProxyActivity"/>
+
+        <activity android:name=".hook.loadedapk.HookLoadedApkActivity"/>
+        <activity android:name=".hook.loadedapk.LoadedApkProxyActivity"/>
 
     </application>
 

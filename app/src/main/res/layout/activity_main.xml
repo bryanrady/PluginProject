@@ -6,9 +6,11 @@
 
     <Button
         android:id="@+id/btn_skin"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
         android:text="动态换肤" />
@@ -16,21 +18,25 @@
     <Button
         android:id="@+id/btn_instrumentation"
         android:layout_below="@+id/btn_skin"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
-        android:text="插桩" />
+        android:text="插桩技术实现加载完整的apk" />
 
     <Button
         android:id="@+id/btn_hook"
         android:layout_below="@+id/btn_instrumentation"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
-        android:text="Hook" />
+        android:text="Hook技术实现插件化" />
 
 </RelativeLayout>
