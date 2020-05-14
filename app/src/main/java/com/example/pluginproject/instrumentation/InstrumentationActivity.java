@@ -30,17 +30,6 @@ public class InstrumentationActivity extends BaseActivity {
 
     @Override
     public void doBusiness(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE,
-                        },
-                        0);
-            }
-
-        }
     }
 
     public void load(View view){

@@ -7,13 +7,11 @@ import android.os.Environment;
 
 import com.example.pluginproject.hook.ams.HookAmsUtil;
 import com.example.pluginproject.hook.merge.HookMergeUtil;
+import com.example.pluginproject.hook.merge.MergePluginManager;
 
 import java.io.File;
 
 public class PluginApplication extends Application {
-
-    private AssetManager mAssetManager;
-    private Resources mResources;
 
     @Override
     public void onCreate() {
@@ -29,33 +27,27 @@ public class PluginApplication extends Application {
         String filePath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin",
                 fileName).getAbsolutePath();
         //融合dex和资源
-        mergeDex(filePath);
-        mergeResources(filePath);
-    }
+        MergePluginManager.getInstance().mergeDex(this, filePath);
+        MergePluginManager.getInstance().mergeResources(this, filePath);
 
-    /**
-     * 合并宿主apk和插件apk的dexElements数组
-     * @param filePath
-     */
-    private void mergeDex(String filePath){
 
     }
 
-    /**
-     * 合并宿主apk和插件apk的资源
-     * @param filePath
-     */
-    private void mergeResources(String filePath) {
 
-    }
 
     @Override
     public AssetManager getAssets() {
-        return mAssetManager != null ? super.getAssets() : super.getAssets();
+        if (MergePluginManager.getInstance().getAssets() != null){
+            return MergePluginManager.getInstance().getAssets();
+        }
+        return super.getAssets();
     }
 
     @Override
     public Resources getResources() {
-        return mResources != null ? mResources : super.getResources();
+        if (MergePluginManager.getInstance().getResources() != null){
+            return MergePluginManager.getInstance().getResources();
+        }
+        return super.getResources();
     }
 }
