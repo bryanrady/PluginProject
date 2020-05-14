@@ -156,7 +156,7 @@ public class HookLoadedApkUtil {
 
             if (newIntent != null) {
                 Intent originalIntent = newIntent.getParcelableExtra("originalIntent");
-                if (originalIntent != null) {
+                if (isNeedLoginActivity(originalIntent)){
                     SharedPreferences sharedPreferences = context.getSharedPreferences("bryanrady", Context.MODE_PRIVATE);
                     boolean isLogin = sharedPreferences.getBoolean("login", false);
                     if (isLogin) {
@@ -181,6 +181,8 @@ public class HookLoadedApkUtil {
                     }
 
                     hookGetPackageInfo(context);
+                }else{
+                    newIntent.setComponent(originalIntent.getComponent());
                 }
             }
         } catch (Exception e) {
@@ -235,6 +237,20 @@ public class HookLoadedApkUtil {
             }
             return method.invoke(mRealIPackageManager, args);
         }
+    }
+
+    private static boolean isNeedLoginActivity(Intent intent){
+        String[] classNames = {
+                "com.example.plugin_hook_loadedapk.FirstActivity",
+                "com.example.plugin_hook_loadedapk.SecondActivity",
+                "com.example.plugin_hook_loadedapk.ThirdActivity",
+        };
+        for (String className : classNames){
+            if (className.equals(intent.getComponent().getClassName())){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -8,6 +8,7 @@ import android.widget.Button;
 import com.example.pluginproject.BaseActivity;
 import com.example.pluginproject.R;
 import com.example.pluginproject.hook.ams.HookAmsActivity;
+import com.example.pluginproject.hook.merge.HookMergeActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -30,7 +31,7 @@ public class HookActivity extends BaseActivity {
                 startActivity(new Intent(this, HookAmsActivity.class));
                 break;
             case R.id.btn_hook_dex_elements:
-                startActivity(new Intent(this, HookAmsActivity.class));
+                startActivity(new Intent(this, HookMergeActivity.class));
                 break;
             case R.id.btn_hook_loadedApk:
                 break;

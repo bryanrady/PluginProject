@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Environment;
+import android.util.Log;
 
 import com.example.pluginproject.hook.ams.HookAmsUtil;
 import com.example.pluginproject.hook.loadedapk.HookLoadedApkUtil;
@@ -19,8 +20,8 @@ public class PluginApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //1.Hook AMS实现集中式登录
-        HookAmsUtil.hookStartActivity(this);
-        HookAmsUtil.hookHandleMessage(this);
+//        HookAmsUtil.hookStartActivity(this);
+//        HookAmsUtil.hookHandleMessage(this);
 
         //2.Hook 加载完整的插件apk实现集中式登录
         HookMergeUtil.hookStartActivity(this);
@@ -69,12 +70,12 @@ public class PluginApplication extends Application {
          */
 
         //3.Hook 通过LoadedApk加载插件实现解耦
-        HookLoadedApkUtil.hookStartActivity(this);
-        HookLoadedApkUtil.hookHandleMessage(this);
-        fileName = "plugin_hook_loaded_apk.apk";
-        filePath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin",
-                fileName).getAbsolutePath();
-        LoadedApkPluginManager.getInstance().putLoadedApk2Map(this, filePath);
+//        HookLoadedApkUtil.hookStartActivity(this);
+//        HookLoadedApkUtil.hookHandleMessage(this);
+//        fileName = "plugin_hook_loaded_apk.apk";
+//        filePath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin",
+//                fileName).getAbsolutePath();
+//        LoadedApkPluginManager.getInstance().putLoadedApk2Map(this, filePath);
     }
 
 

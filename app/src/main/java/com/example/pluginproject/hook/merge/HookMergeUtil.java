@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.example.pluginproject.hook.ams.AmsLoginActivity;
-import com.example.pluginproject.hook.ams.AmsProxyActivity;
+import com.example.pluginproject.hook.ams.AmsFirstActivity;
+import com.example.pluginproject.hook.ams.AmsSecondActivity;
+import com.example.pluginproject.hook.ams.AmsThirdActivity;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
@@ -78,11 +80,10 @@ public class HookMergeUtil {
                     //说明找到了原来的Intent和要跳转的组件
                     if (originalIntent != null && originalIntent.getComponent() != null){
                         //我们创建一个新的Intent，将新的Intent替换老的Intent
-                        Intent newIntent = new Intent(mContext, AmsProxyActivity.class);
+                        Intent newIntent = new Intent(mContext, MergeProxyActivity.class);
                         newIntent.putExtra("originalIntent", originalIntent);
                         args[index] = newIntent;
                     }
-
                 }
             }
             //对每个方法进行转发
@@ -138,6 +139,7 @@ public class HookMergeUtil {
 
             //处理完成后，继续执行系统的流程
             mRealHandler.handleMessage(msg);
+
             //这里要返回true，表示我们通过自己的接口来处理handle的消息
             return true;
         }
@@ -155,7 +157,7 @@ public class HookMergeUtil {
 
             if (newIntent != null) {
                 Intent originalIntent = newIntent.getParcelableExtra("originalIntent");
-                if (originalIntent != null) {
+                if (isNeedLoginActivity(originalIntent)){
                     SharedPreferences sharedPreferences = context.getSharedPreferences("bryanrady", Context.MODE_PRIVATE);
                     boolean isLogin = sharedPreferences.getBoolean("login", false);
                     if (isLogin) {
@@ -163,17 +165,33 @@ public class HookMergeUtil {
                         newIntent.setComponent(originalIntent.getComponent());
                     } else {
                         //如果之前没有登录，就改变意图前往登录
-                        ComponentName componentName = new ComponentName(context, AmsLoginActivity.class);
-                        //顺便把之前要跳转的组件传给AmsLoginActivity，登录成功后跳转原来的的组件
+                        ComponentName componentName = new ComponentName(context, MergeLoginActivity.class);
+                        //顺便把之前要跳转的组件传给MergeLoginActivity，登录成功后跳转原来的的组件
                         newIntent.putExtra("classname", originalIntent.getComponent().getClassName());
                         newIntent.setComponent(componentName);
                     }
+                }else{
+                    newIntent.setComponent(originalIntent.getComponent());
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    private static boolean isNeedLoginActivity(Intent intent){
+        String[] classNames = {
+                "com.example.plugin_hook_merge.FirstActivity",
+                "com.example.plugin_hook_merge.SecondActivity",
+                "com.example.plugin_hook_merge.ThirdActivity",
+        };
+        for (String className : classNames){
+            if (className.equals(intent.getComponent().getClassName())){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

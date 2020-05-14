@@ -164,24 +164,22 @@ public class HookAmsUtil {
 
             if (newIntent != null) {
                 Intent originalIntent = newIntent.getParcelableExtra("originalIntent");
-                if (originalIntent != null) {
+                if (isNeedLoginActivity(originalIntent)){
                     SharedPreferences sharedPreferences = context.getSharedPreferences("bryanrady", Context.MODE_PRIVATE);
                     boolean isLogin = sharedPreferences.getBoolean("login", false);
-                    if (isNeedLoginActivity(originalIntent)){
-                        if (isLogin) {
-                            //如果已经登录过了
-                            newIntent.setComponent(originalIntent.getComponent());
-                        } else {
-                            //如果之前没有登录，就改变意图前往登录
-                            ComponentName componentName = new ComponentName(context, AmsLoginActivity.class);
-                            //顺便把之前要跳转的组件传给AmsLoginActivity，登录成功后跳转原来的的组件
-                            newIntent.putExtra("classname", originalIntent.getComponent().getClassName());
-                            newIntent.setComponent(componentName);
-                        }
-                    }else{
-                        //不需要登录的Activity直接使用原来的意图
+                    if (isLogin) {
+                        //如果已经登录过了
                         newIntent.setComponent(originalIntent.getComponent());
+                    } else {
+                        //如果之前没有登录，就改变意图前往登录
+                        ComponentName componentName = new ComponentName(context, AmsLoginActivity.class);
+                        //顺便把之前要跳转的组件传给AmsLoginActivity，登录成功后跳转原来的的组件
+                        newIntent.putExtra("classname", originalIntent.getComponent().getClassName());
+                        newIntent.setComponent(componentName);
                     }
+                }else{
+                    //不需要登录的Activity直接使用原来的意图
+                    newIntent.setComponent(originalIntent.getComponent());
                 }
             }
         } catch (Exception e) {
@@ -190,11 +188,6 @@ public class HookAmsUtil {
 
     }
 
-    /**
-     * 是否需要登录
-     * @param intent
-     * @return
-     */
     private static boolean isNeedLoginActivity(Intent intent){
         final String[] classNames = {
                 AmsFirstActivity.class.getName(),
