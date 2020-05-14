@@ -37,6 +37,9 @@
         <activity android:name=".hook.merge.HookMergeActivity"/>
         <activity android:name=".hook.merge.MergeProxyActivity"/>
 
+        <activity android:name=".hook.loadedapk.HookLoadedApkActivity"/>
+        <activity android:name=".hook.loadedapk.LoadedApkProxyActivity"/>
+
     </application>
 
 </manifest>

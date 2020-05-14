@@ -1,4 +1,4 @@
-package com.example.pluginproject.hook.merge;
+package com.example.pluginproject.hook.loadedapk;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.example.pluginproject.BaseActivity;
 import com.example.pluginproject.R;
 
-public class HookMergeActivity extends BaseActivity {
+public class HookLoadedApkActivity extends BaseActivity {
 
     @Override
     public int bindLayout() {
@@ -29,29 +29,29 @@ public class HookMergeActivity extends BaseActivity {
 
     public void jump1(View view) {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.example.plugin_hook_merge",
-                "com.example.plugin_hook_merge.FirstActivity"));
+        intent.setComponent(new ComponentName("com.example.plugin_hook_loadedapk",
+                "com.example.plugin_hook_loadedapk.FirstActivity"));
         startActivity(intent);
     }
 
     public void jump2(View view) {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.example.plugin_hook_merge",
-                "com.example.plugin_hook_merge.SecondActivity"));
+        intent.setComponent(new ComponentName("com.example.plugin_hook_loadedapk",
+                "com.example.plugin_hook_loadedapk.SecondActivity"));
         startActivity(intent);
     }
 
     public void jump3(View view) {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.example.plugin_hook_merge",
-                "com.example.plugin_hook_merge.ThirdActivity"));
+        intent.setComponent(new ComponentName("com.example.plugin_hook_loadedapk",
+                "com.example.plugin_hook_loadedapk.ThirdActivity"));
         startActivity(intent);
     }
 
     public void jump_no_login(View view) {
         Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.example.plugin_hook_merge",
-                "com.example.plugin_hook_merge.NoLoginActivity"));
+        intent.setComponent(new ComponentName("com.example.plugin_hook_loadedapk",
+                "com.example.plugin_hook_loadedapk.NoLoginActivity"));
         startActivity(intent);
     }
 
