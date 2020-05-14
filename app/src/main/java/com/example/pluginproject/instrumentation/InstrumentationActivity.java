@@ -33,18 +33,15 @@ public class InstrumentationActivity extends BaseActivity {
     }
 
     public void load(View view){
-        boolean isLoadSuccess = InstrumentationManager.getInstance().loadPluginPath(this);
-        if(isLoadSuccess){
-            Intent intent = new Intent(this, ProxyActivity.class);
-            intent.putExtra("activityName", InstrumentationManager.getInstance().getPackageInfo().activities[0].name);
-            Bundle bundle = new Bundle();
-            bundle.putString("name","张三");
-            bundle.putInt("age",25);
-            intent.putExtra("bundle", bundle);
-            startActivity(intent);
-        }else{
-            Toast.makeText(this,"加载插件出了问题",Toast.LENGTH_SHORT).show();
-        }
+        InstrumentationManager.getInstance().loadPlugin(this);
+
+        Intent intent = new Intent(this, ProxyActivity.class);
+        intent.putExtra("activityName", InstrumentationManager.getInstance().getPackageInfo().activities[0].name);
+        Bundle bundle = new Bundle();
+        bundle.putString("name","张三");
+        bundle.putInt("age",25);
+        intent.putExtra("bundle", bundle);
+        startActivity(intent);
     }
 
     public void sendBroadCast(View view){

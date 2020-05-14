@@ -25,7 +25,7 @@
         android:layout_marginRight="20dp"
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
-        android:text="插桩技术实现加载完整的apk" />
+        android:text="插桩技术实现插件化" />
 
     <Button
         android:id="@+id/btn_hook"
@@ -38,5 +38,17 @@
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
         android:text="Hook技术实现插件化" />
+
+    <Button
+        android:id="@+id/btn_tinker_fix"
+        android:layout_below="@+id/btn_hook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false"
+        android:text="Tinker热修复原理" />
 
 </RelativeLayout>

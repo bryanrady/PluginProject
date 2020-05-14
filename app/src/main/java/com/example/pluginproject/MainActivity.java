@@ -29,6 +29,9 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.btn_hook)
     Button mBtnHook;
 
+    @BindView(R.id.btn_tinker_fix)
+    Button mBtnTinker;
+
     @Override
     public int bindLayout() {
         return R.layout.activity_main;
@@ -53,7 +56,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.btn_skin, R.id.btn_instrumentation, R.id.btn_hook})
+    @OnClick({R.id.btn_skin, R.id.btn_instrumentation, R.id.btn_hook, R.id.btn_tinker_fix})
     void doClick(View view){
         Intent intent;
         switch (view.getId()){
@@ -65,6 +68,8 @@ public class MainActivity extends BaseActivity {
                 break;
             case R.id.btn_hook:
                 startActivity(new Intent(this, HookActivity.class));
+                break;
+            case R.id.btn_tinker_fix:
                 break;
         }
     }
