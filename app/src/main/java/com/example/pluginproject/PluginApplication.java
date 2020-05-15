@@ -27,8 +27,7 @@ public class PluginApplication extends Application {
         HookMergeUtil.hookStartActivity(this);
         HookMergeUtil.hookHandleMessage(this);
         String fileName = "plugin_hook_merge.apk";
-        String filePath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin",
-                fileName).getAbsolutePath();
+        String filePath = new File(Environment.getExternalStorageDirectory() + "/plugin", fileName).getAbsolutePath();
         //融合dex和资源
         MergePluginManager.getInstance().mergeDex(this, filePath);
         MergePluginManager.getInstance().mergeResources(this, filePath);
@@ -73,7 +72,7 @@ public class PluginApplication extends Application {
 //        HookLoadedApkUtil.hookStartActivity(this);
 //        HookLoadedApkUtil.hookHandleMessage(this);
 //        fileName = "plugin_hook_loaded_apk.apk";
-//        filePath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/plugin",
+//        filePath = new File(Environment.getExternalStorageDirectory() + "/plugin",
 //                fileName).getAbsolutePath();
 //        LoadedApkPluginManager.getInstance().putLoadedApk2Map(this, filePath);
     }
